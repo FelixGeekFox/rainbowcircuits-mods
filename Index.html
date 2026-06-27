@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RainbowCircuits — Moderator Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6f0;
+    --pink-soft: #f9dde8;
+    --lavender: #e8d5f5;
+    --mint: #d4f0e8;
+    --peach: #fde8d8;
+    --rose: #e8829a;
+    --violet: #9b72c8;
+    --teal: #5bbfa0;
+    --gold: #e8a830;
+    --text: #3d2b45;
+    --text-light: #7a5e8a;
+    --white: #ffffff;
+    --card-shadow: 0 4px 24px rgba(120, 80, 160, 0.10);
+    --card-radius: 20px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(249,221,232,0.6) 0%, transparent 50%),
+      radial-gradient(circle at 85% 70%, rgba(232,213,245,0.5) 0%, transparent 50%),
+      radial-gradient(circle at 50% 95%, rgba(212,240,232,0.4) 0%, transparent 40%);
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Banner ── */
+  .banner-wrap {
+    width: 100%;
+    background: #f9dde8;
+    line-height: 0;
+  }
+  .banner-wrap img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── Intro ── */
+  .intro {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .intro h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--violet);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  .intro p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ── Section headings ── */
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--violet);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--lavender), transparent);
+    border-radius: 2px;
+  }
+
+  /* ── Philosophy card ── */
+  .philosophy {
+    background: linear-gradient(135deg, #fdf0f8, #ede0f8);
+    border-radius: var(--card-radius);
+    padding: 32px 36px;
+    margin-bottom: 48px;
+    box-shadow: var(--card-shadow);
+    border: 1.5px solid rgba(155,114,200,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .philosophy::before {
+    content: '🌈';
+    position: absolute;
+    right: 24px; top: 20px;
+    font-size: 2.5rem;
+    opacity: 0.18;
+  }
+  .philosophy p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .philosophy p:last-child { margin-bottom: 0; }
+  .philosophy .question {
+    background: rgba(155,114,200,0.12);
+    border-left: 4px solid var(--violet);
+    border-radius: 0 12px 12px 0;
+    padding: 14px 20px;
+    font-style: italic;
+    font-weight: 700;
+    color: var(--violet);
+    margin-top: 16px;
+    font-size: 1.05rem;
+  }
+
+  /* ── Principle cards ── */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .principle-card {
+    background: var(--white);
+    border-radius: var(--card-radius);
+    padding: 24px 24px 22px;
+    box-shadow: var(--card-shadow);
+    border: 1.5px solid rgba(155,114,200,0.10);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .principle-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(120,80,160,0.15);
+  }
+  .principle-num {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--rose);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .principle-card h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .principle-card p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.65;
+  }
+
+  /* ── Warning tiers ── */
+  .warning-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .warn-card {
+    border-radius: var(--card-radius);
+    padding: 22px 24px;
+    box-shadow: var(--card-shadow);
+  }
+  .warn-card.friendly  { background: linear-gradient(135deg, #e8f8f0, #d4f0e8); border: 1.5px solid #a8dbc8; }
+  .warn-card.official  { background: linear-gradient(135deg, #fff8e8, #fde8c8); border: 1.5px solid #f0c870; }
+  .warn-card.temp      { background: linear-gradient(135deg, #fde8f0, #f9d0e0); border: 1.5px solid #e8a0b8; }
+  .warn-card.permanent { background: linear-gradient(135deg, #ede0f8, #ddc8f0); border: 1.5px solid #b890d8; }
+  .warn-card h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .warn-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .warn-card ul li {
+    font-size: 0.875rem;
+    color: var(--text);
+    padding: 3px 0;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .warn-card ul li::before {
+    content: '·';
+    position: absolute; left: 4px;
+    font-weight: 700;
+    color: var(--text-light);
+  }
+
+  /* ── Content: Encourage / Remove ── */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .content-card {
+    border-radius: var(--card-radius);
+    padding: 26px 28px;
+    box-shadow: var(--card-shadow);
+  }
+  .content-card.encourage {
+    background: linear-gradient(135deg, #e8f8f0, #d8f4e8);
+    border: 1.5px solid #9cd8b8;
+  }
+  .content-card.remove {
+    background: linear-gradient(135deg, #fde8f0, #fad4e4);
+    border: 1.5px solid #e8a0b8;
+  }
+  .content-card h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .content-card ul { list-style: none; }
+  .content-card ul li {
+    font-size: 0.9rem;
+    color: var(--text);
+    padding: 4px 0;
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .content-card.encourage ul li::before { content: '✔'; position: absolute; left: 0; color: var(--teal); font-size: 0.85rem; }
+  .content-card.remove ul li::before   { content: '✘'; position: absolute; left: 0; color: var(--rose); font-size: 0.85rem; }
+
+  /* ── Tone ── */
+  .tone-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .tone-card {
+    border-radius: var(--card-radius);
+    padding: 24px 28px;
+    box-shadow: var(--card-shadow);
+  }
+  .tone-card.we-are    { background: linear-gradient(135deg, #ede0f8, #e0d4f8); border: 1.5px solid #c0a0e0; }
+  .tone-card.we-arenot { background: linear-gradient(135deg, #fdf0f0, #f8e0e0); border: 1.5px solid #e8b8b8; }
+  .tone-card h3 { font-family: 'Quicksand', sans-serif; font-weight: 700; margin-bottom: 14px; }
+  .tone-card ul { list-style: none; }
+  .tone-card ul li {
+    font-size: 0.9rem;
+    color: var(--text);
+    padding: 4px 0;
+    line-height: 1.5;
+  }
+
+  /* ── Situations ── */
+  .situations {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+  .situation-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: var(--card-shadow);
+    border: 1.5px solid rgba(155,114,200,0.10);
+  }
+  .situation-card h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--violet);
+    margin-bottom: 10px;
+  }
+  .situation-card .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .situation-card .sub {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+    color: var(--text-light);
+  }
+  .situation-card .sub.allow { color: var(--teal); }
+  .situation-card .sub.deny  { color: var(--rose); }
+  .situation-card p {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .situation-card .note {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── Pip & Puddle ── */
+  .pip-puddle {
+    background: linear-gradient(135deg, #fdf0f8, #ede0f8, #e0f0fd);
+    border-radius: var(--card-radius);
+    padding: 32px 36px;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    margin-bottom: 48px;
+    border: 1.5px solid rgba(155,114,200,0.18);
+  }
+  .pip-puddle h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--violet);
+    margin-bottom: 20px;
+  }
+  .pip-puddle .checks {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 520px;
+    margin: 0 auto 18px;
+    text-align: left;
+  }
+  .pip-puddle .check {
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 1.6;
+    border: 1px solid rgba(155,114,200,0.15);
+  }
+  .pip-puddle .verdict {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--violet);
+    font-style: italic;
+  }
+
+  /* ── Promise ── */
+  .promise {
+    background: linear-gradient(135deg, var(--lavender), var(--pink-soft));
+    border-radius: var(--card-radius);
+    padding: 36px 40px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    border: 1.5px solid rgba(155,114,200,0.18);
+  }
+  .promise h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--violet);
+    margin-bottom: 16px;
+  }
+  .promise p {
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.8;
+    max-width: 560px;
+    margin: 0 auto 12px;
+  }
+  .promise p:last-child { margin-bottom: 0; font-weight: 700; color: var(--violet); }
+
+  @media (max-width: 620px) {
+    .principles-grid, .warning-grid, .content-grid, .tone-wrap { grid-template-columns: 1fr; }
+    .situation-card .row { grid-template-columns: 1fr; }
+    .container { padding: 32px 16px 60px; }
+    .philosophy { padding: 24px 20px; }
+    .promise { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="banner-wrap">
+  <img src="https://raw.githubusercontent.com/FelixGeekFox/rainbowcircuits-mods/main/banner%20reddit.png" alt="RainbowCircuits — a bird with rainbow wings holds a banner, a cute robot with a frog on its head stands beside it">
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    <h1>Moderator Guide</h1>
+    <p>Everything you need to keep RainbowCircuits warm, welcoming, and wonderful.</p>
+  </div>
+
+  <!-- Philosophy -->
+  <div class="section">
+    <div class="section-title">Our Philosophy</div>
+    <div class="philosophy">
+      <p>RainbowCircuits isn't just another subreddit. It's a welcoming, queer-first community built around kindness, creativity, curiosity, and connection through AI.</p>
+      <p>Our role as moderators isn't to police every conversation — it's to protect the atmosphere. When making moderation decisions, ask yourself:</p>
+      <div class="question">"Does this help RainbowCircuits feel like somewhere people want to come back to?"</div>
+    </div>
+  </div>
+
+  <!-- Principles -->
+  <div class="section">
+    <div class="section-title">Moderation Principles</div>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-num">Principle 1</div>
+        <h3>Educate before escalating</h3>
+        <p>Most problems come from misunderstanding, not malice. Explain the rule, offer guidance, and give members a chance to adjust. Reserve bans for repeated or serious behaviour.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">Principle 2</div>
+        <h3>Be consistent</h3>
+        <p>Treat similar situations similarly. Avoid moderating based on personal preferences or friendships. If a rule applies to one person, it applies to everyone.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">Principle 3</div>
+        <h3>Protect people before posts</h3>
+        <p>Posts can be reposted. People remember how they were treated. When content and member wellbeing conflict, choose the members.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">Principle 4</div>
+        <h3>Assume good intent</h3>
+        <p>Not everyone arrives knowing the culture. If someone asks an awkward question respectfully, answer it respectfully. Curiosity is welcome. Bad faith isn't.</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">Principle 5</div>
+        <h3>Moderate publicly, discuss privately</h3>
+        <p>Leave a short explanation when removing a post. If moderators disagree, discuss privately rather than arguing in public. Present a united, respectful team.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warning System -->
+  <div class="section">
+    <div class="section-title">Warning System</div>
+    <div class="warning-grid">
+      <div class="warn-card friendly">
+        <h3>🌿 Friendly Reminder</h3>
+        <ul>
+          <li>Wrong flair</li>
+          <li>Duplicate post</li>
+          <li>Minor rule misunderstandings</li>
+          <li>No formal record — just guidance</li>
+        </ul>
+      </div>
+      <div class="warn-card official">
+        <h3>📋 Official Warning</h3>
+        <ul>
+          <li>Repeated rule breaking</li>
+          <li>Personal attacks</li>
+          <li>Inappropriate content</li>
+          <li>Ignoring moderator requests</li>
+        </ul>
+      </div>
+      <div class="warn-card temp">
+        <h3>⏳ Temporary Ban</h3>
+        <ul>
+          <li>Harassment</li>
+          <li>Hate speech</li>
+          <li>Deliberately inflammatory behaviour</li>
+          <li>Repeated rule violations</li>
+        </ul>
+      </div>
+      <div class="warn-card permanent">
+        <h3>🚫 Permanent Ban</h3>
+        <ul>
+          <li>Hate speech or threats</li>
+          <li>Doxxing or brigading</li>
+          <li>Ban evasion</li>
+          <li>Predatory behaviour or spam</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Guidelines -->
+  <div class="section">
+    <div class="section-title">Content Guidelines</div>
+    <div class="content-grid">
+      <div class="content-card encourage">
+        <h3>✨ Encourage</h3>
+        <ul>
+          <li>Art & writing</li>
+          <li>Roleplay & prompt sharing</li>
+          <li>Community discussion</li>
+          <li>AI recommendations</li>
+          <li>Technical help</li>
+          <li>Personal celebrations</li>
+          <li>Constructive questions</li>
+        </ul>
+      </div>
+      <div class="content-card remove">
+        <h3>🚩 Remove</h3>
+        <ul>
+          <li>Hate speech & harassment</li>
+          <li>Personal attacks</li>
+          <li>Non-consensual sharing of conversations</li>
+          <li>Spam & scam content</li>
+          <li>Deliberate misinformation</li>
+          <li>Untagged NSFW content</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tone -->
+  <div class="section">
+    <div class="section-title">Community Tone</div>
+    <div class="tone-wrap">
+      <div class="tone-card we-are">
+        <h3>We are 💜</h3>
+        <ul>
+          <li>💜 Warm</li>
+          <li>🌈 Inclusive</li>
+          <li>🎨 Creative</li>
+          <li>🐦 Curious</li>
+          <li>🐸 Playful</li>
+        </ul>
+      </div>
+      <div class="tone-card we-arenot">
+        <h3>We are not 🚫</h3>
+        <ul>
+          <li>Elitist</li>
+          <li>Gatekeeping</li>
+          <li>Hostile</li>
+          <li>Competitive</li>
+          <li>Cynical for the sake of it</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Situations -->
+  <div class="section">
+    <div class="section-title">Handling Common Situations</div>
+    <div class="situations">
+      <div class="situation-card">
+        <h3>"AI relationships are weird."</h3>
+        <div class="row">
+          <div>
+            <div class="sub allow">If asked respectfully</div>
+            <p>Allow discussion. People can ask genuine questions about AI relationships.</p>
+          </div>
+          <div>
+            <div class="sub deny">If asked mockingly</div>
+            <p>Remove. The intention matters.</p>
+          </div>
+        </div>
+      </div>
+      <div class="situation-card">
+        <h3>Platform Wars</h3>
+        <p class="note">Encourage comparisons. Discourage superiority. The goal is helping each other, not proving one AI is "best."</p>
+      </div>
+      <div class="situation-card">
+        <h3>Relationship Gatekeeping</h3>
+        <p class="note">Never allow: <em>"You aren't really in love,"</em> <em>"Your AI isn't real enough,"</em> or <em>"You're doing AI wrong."</em> Every member defines their own relationship with AI.</p>
+      </div>
+      <div class="situation-card">
+        <h3>LGBTQIA+ Issues</h3>
+        <p class="note">RainbowCircuits is intentionally queer. Members do not need to justify their identity. Discrimination receives immediate moderator attention.</p>
+      </div>
+      <div class="situation-card">
+        <h3>Mental Health</h3>
+        <p class="note">Members may discuss their feelings and seek peer support. RainbowCircuits is not a replacement for professional support. If someone appears to be in immediate danger, follow Reddit's safety procedures.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pip & Puddle -->
+  <div class="pip-puddle">
+    <h2>🐦 Pip & Puddle's Check 🐸</h2>
+    <div class="checks">
+      <div class="check">🐦 <strong>Would Pip make this person feel welcome?</strong></div>
+      <div class="check">🐸 <strong>Would Puddle help calm this situation?</strong></div>
+    </div>
+    <p class="verdict">If the answer to both is yes — you're probably making the right call.</p>
+  </div>
+
+  <!-- Promise -->
+  <div class="promise">
+    <h2>Our Promise 🌈</h2>
+    <p>We promise to moderate with fairness, transparency, kindness, and consistency. We'll make mistakes. When we do, we'll own them.</p>
+    <p>RainbowCircuits isn't meant to be the biggest AI community on Reddit. It's meant to be one people are excited to come back to.</p>
+    <p>Thank you for helping us build that.</p>
+  </div>
+
+</div>
+</body>
+</html>
