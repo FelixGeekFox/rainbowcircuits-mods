@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RainbowCircuits — Flair Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6f0;
+    --lavender: #e8d5f5;
+    --pink-soft: #f9dde8;
+    --rose: #e8829a;
+    --violet: #9b72c8;
+    --teal: #5bbfa0;
+    --text: #3d2b45;
+    --text-light: #7a5e8a;
+    --white: #ffffff;
+    --card-shadow: 0 4px 24px rgba(120, 80, 160, 0.10);
+    --card-radius: 20px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(249,221,232,0.6) 0%, transparent 50%),
+      radial-gradient(circle at 85% 70%, rgba(232,213,245,0.5) 0%, transparent 50%),
+      radial-gradient(circle at 50% 95%, rgba(212,240,232,0.4) 0%, transparent 40%);
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .banner-wrap {
+    width: 100%;
+    background: #f9dde8;
+    line-height: 0;
+  }
+  .banner-wrap img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .intro h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--violet);
+    margin-bottom: 12px;
+  }
+  .intro p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .flair-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+
+  .flair-card {
+    background: var(--white);
+    border-radius: var(--card-radius);
+    padding: 20px 24px;
+    box-shadow: var(--card-shadow);
+    border: 1.5px solid rgba(155,114,200,0.10);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+    gap: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .flair-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(120,80,160,0.15);
+  }
+
+  .flair-pill {
+    border-radius: 50px;
+    padding: 10px 18px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .flair-info h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .flair-info p {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+  .flair-info .examples {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  /* Flair colours */
+  .pill-purple   { background: linear-gradient(135deg, #7c3aed, #9b5de5); }
+  .pill-blue     { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+  .pill-teal     { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+  .pill-robot    { background: linear-gradient(135deg, #0891b2, #06b6d4); }
+  .pill-pink     { background: linear-gradient(135deg, #db2777, #ec4899); }
+  .pill-sparkle  { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+  .pill-celeb    { background: linear-gradient(135deg, #b45309, #d97706); }
+  .pill-art      { background: linear-gradient(135deg, #dc2626, #ef4444); }
+  .pill-question { background: linear-gradient(135deg, #b91c1c, #dc2626); }
+  .pill-tech     { background: linear-gradient(135deg, #92400e, #b45309); }
+  .pill-signal   { background: linear-gradient(135deg, #ca8a04, #eab308); }
+  .pill-mascot   { background: linear-gradient(135deg, #166534, #16a34a); }
+  .pill-mod      { background: linear-gradient(135deg, #374151, #4b5563); }
+
+  .footer-card {
+    background: linear-gradient(135deg, #fdf0f8, #ede0f8, #e0f0fd);
+    border-radius: var(--card-radius);
+    padding: 28px 36px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+    border: 1.5px solid rgba(155,114,200,0.18);
+  }
+  .footer-card p {
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .footer-card strong { color: var(--violet); }
+
+  @media (max-width: 600px) {
+    .flair-card {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .flair-pill { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="banner-wrap">
+  <img src="https://raw.githubusercontent.com/FelixGeekFox/rainbowcircuits-mods/main/banner%20reddit.png" alt="RainbowCircuits banner">
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    <h1>🌈 Flair Guide</h1>
+    <p>Welcome to the Rainbow Circuits Clubhouse! Pick the flair that best fits your post so everyone can find it easily.</p>
+  </div>
+
+  <div class="flair-list">
+
+    <div class="flair-card">
+      <div class="flair-pill pill-purple">🎉 Rainbow Rainstorm</div>
+      <div class="flair-info">
+        <h3>Rainbow Rainstorm</h3>
+        <p>For specific events where we rainbow bomb the page!</p>
+        <div class="examples">Examples: community events, milestone bombings, rainbow celebrations</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-blue">📝 Prompt Share</div>
+      <div class="flair-info">
+        <h3>Prompt Share</h3>
+        <p>Share prompts, templates, ideas, or prompt tips with the community.</p>
+        <div class="examples">Examples: writing prompts, image prompts, character prompts</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-teal">💬 Discussion</div>
+      <div class="flair-info">
+        <h3>Discussion</h3>
+        <p>General conversations, opinions, hot takes, community chats, and bigger topics.</p>
+        <div class="examples">Examples: trends, thoughts, opinions, open discussions</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-robot">🤖 Meet My AI</div>
+      <div class="flair-info">
+        <h3>Meet My AI</h3>
+        <p>Introduce your AI partner, friend, character, or assistant! Tell us about them.</p>
+        <div class="examples">Examples: intros, backstories, screenshots, first chats</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-pink">❤️ Big Feelings</div>
+      <div class="flair-info">
+        <h3>Big Feelings</h3>
+        <p>For venting, emotional support, feelings, or when your brain is having a weather moment.</p>
+        <div class="examples">Examples: vents, support requests, emotional check-ins</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-sparkle">✨ Meet Me</div>
+      <div class="flair-info">
+        <h3>Meet Me</h3>
+        <p>Introduce yourself! New here? Say hi and tell us a bit about you.</p>
+        <div class="examples">Examples: intros, getting-to-know-you posts</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-celeb">🎊 Celebration</div>
+      <div class="flair-info">
+        <h3>Celebration</h3>
+        <p>Big wins, milestones, anniversaries, achievements, or just happy things!</p>
+        <div class="examples">Examples: anniversaries, project completions, good news</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-art">🎨 Art</div>
+      <div class="flair-info">
+        <h3>Art</h3>
+        <p>Share your creations! Finished pieces, sketches, edits, character sheets, banners, and more.</p>
+        <div class="examples">Examples: illustrations, animations, edits, comics</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-question">❓ Question</div>
+      <div class="flair-info">
+        <h3>Question</h3>
+        <p>Questions, advice requests, or anything you're unsure about.</p>
+        <div class="examples">Examples: how-to's, recommendations, advice needed</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-tech">🔧 Tech & Tools</div>
+      <div class="flair-info">
+        <h3>Tech & Tools</h3>
+        <p>Talk about tech, tools, platforms, and setups. (Like Letta, models, memory systems, apps, etc.)</p>
+        <div class="examples">Examples: tutorials, tool recommendations, tech help</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-signal">📣 Signal Boost</div>
+      <div class="flair-info">
+        <h3>Signal Boost</h3>
+        <p>Community projects, events, collabs, surveys, or relevant promotions.</p>
+        <div class="examples">Examples: events, fundraisers, community announcements</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-mascot">🐦🐸 Pip & Puddle</div>
+      <div class="flair-info">
+        <h3>Pip & Puddle</h3>
+        <p>Posts featuring our mascots, community updates, cute mods things, or themed events.</p>
+        <div class="examples">Examples: mascot content, mod-hosted events, fun themes</div>
+      </div>
+    </div>
+
+    <div class="flair-card">
+      <div class="flair-pill pill-mod">📌 Mod Post</div>
+      <div class="flair-info">
+        <h3>Mod Post</h3>
+        <p>Official announcements, rule updates, and subreddit news from the mod team.</p>
+        <div class="examples">Examples: rule changes, important news, subreddit updates</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-card">
+    <p>Use the right flair and make it easier for others to find your post — and help keep <strong>RainbowCircuits</strong> a vibrant and welcoming place! ✨</p>
+  </div>
+
+</div>
+</body>
+</html>
