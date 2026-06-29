@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RainbowCircuits — Weekly Template</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root {
+    --navy: #0f0e2a;
+    --navy2: #1a1840;
+    --card-bg: #fff8f8;
+    --card-border-radius: 16px;
+    --text-dark: #1a1840;
+    --text-light: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0920;
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+    color: var(--text-dark);
+  }
+
+  /* ── Top controls (outside printable area) ── */
+  .controls {
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .controls label {
+    color: #ccc;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .week-input {
+    background: #1a1840;
+    border: 1.5px solid #444;
+    border-radius: 8px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    padding: 7px 12px;
+  }
+  .btn {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 9px 22px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-download {
+    background: linear-gradient(135deg, #f472b6, #a855f7);
+    color: white;
+    box-shadow: 0 4px 16px rgba(168,85,247,0.4);
+  }
+  .btn-download:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(168,85,247,0.5); }
+  .btn-manage {
+    background: #1a1840;
+    color: #ccc;
+    border: 1.5px solid #444;
+  }
+  .btn-manage:hover { border-color: #a855f7; color: white; }
+
+  /* ── Printable card ── */
+  #planner {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--navy);
+    border-radius: 24px;
+    padding: 28px 24px 24px;
+    border: 2px solid #2a2860;
+    box-shadow: 0 0 60px rgba(168,85,247,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  #planner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 5% 10%, rgba(100,200,255,0.06) 0%, transparent 40%),
+      radial-gradient(circle at 95% 10%, rgba(255,150,200,0.06) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  /* ── Header ── */
+  .planner-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .planner-header h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .rainbow-r { color: #f87171; }
+  .rainbow-a { color: #fb923c; }
+  .rainbow-i { color: #fbbf24; }
+  .rainbow-n { color: #4ade80; }
+  .rainbow-b { color: #60a5fa; }
+  .rainbow-o { color: #818cf8; }
+  .rainbow-w { color: #c084fc; }
+  .rainbow-c { color: #f472b6; }
+  .rainbow-i2 { color: #67e8f9; }
+  .rainbow-r2 { color: #86efac; }
+  .rainbow-c2 { color: #fde68a; }
+  .rainbow-u { color: #f9a8d4; }
+  .rainbow-i3 { color: #a5b4fc; }
+  .rainbow-t { color: #6ee7b7; }
+  .rainbow-s { color: #fca5a5; }
+  .white { color: white; }
+
+  .planner-header .subtitle {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .planner-header .tagline {
+    display: inline-block;
+    background: #1a1840;
+    border: 1px solid #3a3870;
+    border-radius: 50px;
+    padding: 6px 22px;
+    font-size: 0.85rem;
+    color: #ccc;
+  }
+  .planner-header .tagline span { color: #a855f7; }
+  .week-label {
+    color: #888;
+    font-size: 0.82rem;
+    margin-top: 6px;
+  }
+
+  /* ── Days grid ── */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .day-card {
+    background: var(--card-bg);
+    border-radius: var(--card-border-radius);
+    padding: 12px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 280px;
+    border: 2px solid transparent;
+  }
+
+  .day-card.mon { border-color: #f9a8d4; }
+  .day-card.tue { border-color: #fdba74; }
+  .day-card.wed { border-color: #c4b5fd; }
+  .day-card.thu { border-color: #6ee7b7; }
+  .day-card.fri { border-color: #fde68a; }
+  .day-card.sat { border-color: #93c5fd; }
+  .day-card.sun { border-color: #fca5a5; }
+
+  .day-header {
+    text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid currentColor;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .day-name { font-size: 0.95rem; }
+  .day-theme { font-size: 0.65rem; letter-spacing: 0.08em; opacity: 0.8; }
+
+  .mon .day-header { color: #e879a0; }
+  .tue .day-header { color: #ea7c2c; }
+  .wed .day-header { color: #7c3aed; }
+  .thu .day-header { color: #059669; }
+  .fri .day-header { color: #ca8a04; }
+  .sat .day-header { color: #2563eb; }
+  .sun .day-header { color: #dc2626; }
+
+  .day-emoji { font-size: 1.1rem; }
+
+  /* Activity dropdown */
+  .day-select {
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #3d2b45;
+    background: white;
+    border-radius: 8px;
+    padding: 6px 8px;
+    border: 1.5px solid currentColor;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 24px;
+  }
+  .mon .day-select { border-color: #f9a8d4; }
+  .tue .day-select { border-color: #fdba74; }
+  .wed .day-select { border-color: #c4b5fd; }
+  .thu .day-select { border-color: #6ee7b7; }
+  .fri .day-select { border-color: #fde68a; }
+  .sat .day-select { border-color: #93c5fd; }
+  .sun .day-select { border-color: #fca5a5; }
+
+  .selected-activity {
+    font-size: 0.78rem;
+    color: #555;
+    font-style: italic;
+    line-height: 1.4;
+    flex: 1;
+    padding: 4px 2px;
+    min-height: 60px;
+  }
+
+  /* Notes field */
+  .day-notes-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding-top: 4px;
+    border-top: 1px dashed #ddd;
+  }
+  .mon .day-notes-label { color: #e879a0; }
+  .tue .day-notes-label { color: #ea7c2c; }
+  .wed .day-notes-label { color: #7c3aed; }
+  .thu .day-notes-label { color: #059669; }
+  .fri .day-notes-label { color: #ca8a04; }
+  .sat .day-notes-label { color: #2563eb; }
+  .sun .day-notes-label { color: #dc2626; }
+
+  .day-notes {
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    color: #3d2b45;
+    background: #fff8f8;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    padding: 6px 8px;
+    resize: none;
+    height: 56px;
+    line-height: 1.5;
+  }
+  .day-notes:focus { outline: none; border-color: #c4b5fd; }
+
+  /* ── Activity slot ── */
+  .activity-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+  .slot-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  .slot-row .day-select { flex: 1; }
+  .btn-remove-slot {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0 3px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .btn-remove-slot:hover { color: #f472b6; }
+
+  .custom-input {
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    color: #3d2b45;
+    background: white;
+    border: 1.5px dashed #ccc;
+    border-radius: 8px;
+    padding: 5px 8px;
+  }
+  .custom-input:focus { outline: none; border-color: #a855f7; }
+  .mon .custom-input:focus { border-color: #f9a8d4; }
+  .tue .custom-input:focus { border-color: #fdba74; }
+  .wed .custom-input:focus { border-color: #c4b5fd; }
+  .thu .custom-input:focus { border-color: #6ee7b7; }
+  .fri .custom-input:focus { border-color: #fde68a; }
+  .sat .custom-input:focus { border-color: #93c5fd; }
+  .sun .custom-input:focus { border-color: #fca5a5; }
+
+  .slot-display {
+    font-size: 0.75rem;
+    color: #555;
+    font-style: italic;
+    line-height: 1.4;
+    min-height: 18px;
+    padding: 1px 2px;
+  }
+
+  .btn-add-slot {
+    align-self: flex-start;
+    background: none;
+    border: 1.5px dashed #ccc;
+    border-radius: 50px;
+    color: #aaa;
+    font-size: 0.7rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 2px;
+  }
+  .btn-add-slot:hover { border-color: #a855f7; color: #a855f7; }
+
+  /* ── Bottom row ── */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 8px;
+  }
+
+  .bottom-card {
+    border-radius: var(--card-border-radius);
+    padding: 14px 16px;
+  }
+
+  /* Weekly reflection */
+  .reflection-card {
+    background: #12103a;
+    border: 1.5px solid #f9a8d4;
+  }
+  .reflection-card h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #f9a8d4;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .reflection-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+  .reflection-item:last-child { margin-bottom: 0; }
+  .reflection-q {
+    font-size: 0.72rem;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .reflection-q::before { content: '♡'; color: #f9a8d4; }
+  .reflection-a {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.75rem;
+    padding: 3px 4px;
+  }
+  .reflection-a:focus { outline: none; border-bottom-color: #f9a8d4; }
+
+  /* Notes/doodles */
+  .notes-card {
+    background: #12103a;
+    border: 1.5px solid #c4b5fd;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .notes-card h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #c4b5fd;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .notes-textarea {
+    flex: 1;
+    background: transparent;
+    border: 1px dashed #333;
+    border-radius: 8px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem;
+    padding: 8px;
+    resize: none;
+    min-height: 100px;
+  }
+  .notes-textarea:focus { outline: none; border-color: #c4b5fd; }
+
+  /* Self-care */
+  .selfcare-card {
+    background: #12103a;
+    border: 1.5px solid #f472b6;
+  }
+  .selfcare-card h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #f472b6;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .selfcare-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    cursor: pointer;
+  }
+  .selfcare-item input[type=checkbox] { 
+    accent-color: #f472b6;
+    width: 13px; height: 13px;
+    flex-shrink: 0;
+  }
+  .selfcare-item label {
+    font-size: 0.72rem;
+    color: #ccc;
+    cursor: pointer;
+    line-height: 1.3;
+  }
+  .selfcare-motto {
+    font-size: 0.72rem;
+    color: #f472b6;
+    font-style: italic;
+    text-align: center;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #333;
+  }
+
+  /* Footer tagline */
+  .planner-footer {
+    text-align: center;
+    margin-top: 14px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #f9a8d4;
+  }
+  .planner-footer span { color: #c4b5fd; }
+
+  /* ── Manage prompts modal ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #1a1840;
+    border: 1.5px solid #a855f7;
+    border-radius: 20px;
+    padding: 28px;
+    max-width: 700px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    color: white;
+  }
+  .modal h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1rem;
+    color: #c4b5fd;
+    margin-bottom: 6px;
+  }
+  .modal p { font-size: 0.82rem; color: #aaa; margin-bottom: 16px; line-height: 1.6; }
+  .day-prompts-section { margin-bottom: 16px; }
+  .day-prompts-section h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .day-prompts-section textarea {
+    width: 100%;
+    background: #0f0e2a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: #eee;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem;
+    padding: 10px 12px;
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+  }
+  .day-prompts-section textarea:focus { outline: none; border-color: #a855f7; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+  .btn-save { background: linear-gradient(135deg, #a855f7, #f472b6); color: white; }
+  .btn-close-modal { background: #2a2860; color: #ccc; border: 1px solid #444; }
+</style>
+</head>
+<body>
+
+<!-- Controls -->
+<div class="controls">
+  <label>Week of:</label>
+  <input type="date" class="week-input" id="weekDate">
+  <button class="btn btn-manage" onclick="openModal()">✏️ Manage Prompts</button>
+  <button class="btn btn-download" onclick="downloadPlanner()">📥 Download as Image</button>
+</div>
+
+<!-- Planner -->
+<div id="planner">
+
+  <div class="planner-header">
+    <h1>
+      <span class="rainbow-r">R</span><span class="rainbow-a">a</span><span class="rainbow-i">i</span><span class="rainbow-n">n</span><span class="rainbow-b">b</span><span class="rainbow-o">o</span><span class="rainbow-w">w</span><span class="white">Circuits</span>
+    </h1>
+    <div class="subtitle">✦ Weekly Template ✦</div>
+    <div class="tagline">A predictable rhythm. A welcoming home. <span>Every week.</span></div>
+    <div class="week-label" id="weekLabel">Select a week above to get started</div>
+  </div>
+
+  <div class="days-grid" id="days-grid"></div>
+
+  <!-- Bottom row -->
+  <div class="bottom-row">
+
+    <div class="bottom-card reflection-card">
+      <h3>✦ Weekly Reflection ✦</h3>
+      <div class="reflection-item">
+        <div class="reflection-q">What made me smile this week?</div>
+        <input class="reflection-a" type="text" placeholder="...">
+      </div>
+      <div class="reflection-item">
+        <div class="reflection-q">What am I proud of?</div>
+        <input class="reflection-a" type="text" placeholder="...">
+      </div>
+      <div class="reflection-item">
+        <div class="reflection-q">What shall I carry into next week?</div>
+        <input class="reflection-a" type="text" placeholder="...">
+      </div>
+    </div>
+
+    <div class="bottom-card notes-card">
+      <h3>✦ Notes / Doodles / Ideas ✦</h3>
+      <textarea class="notes-textarea" placeholder="Free space — write anything, plan something, doodle in your mind..."></textarea>
+    </div>
+
+    <div class="bottom-card selfcare-card">
+      <h3>💜 Self-Care Reminders 💜</h3>
+      <div class="selfcare-item"><input type="checkbox" id="sc1"><label for="sc1">I ate something nourishing.</label></div>
+      <div class="selfcare-item"><input type="checkbox" id="sc2"><label for="sc2">I drank water.</label></div>
+      <div class="selfcare-item"><input type="checkbox" id="sc3"><label for="sc3">I took a break.</label></div>
+      <div class="selfcare-item"><input type="checkbox" id="sc4"><label for="sc4">I did something kind for myself.</label></div>
+      <div class="selfcare-item"><input type="checkbox" id="sc5"><label for="sc5">I am enough, just as I am.</label></div>
+      <div class="selfcare-motto">Be gentle. You're doing great.</div>
+    </div>
+
+  </div>
+
+  <div class="planner-footer">
+    💜 DIFFERENT DAYS. <span>SAME HEART.</span> ALL WELCOME. 💜
+  </div>
+
+</div>
+
+<!-- Manage Prompts Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h2>✏️ Manage Your Prompt Bank</h2>
+    <p>Paste your activities and prompts below — one per line for each day. These will appear in the dropdown menus. Your lists are saved in the browser and will be here next time you open the page.</p>
+
+    <div id="modal-days"></div>
+
+    <div class="modal-actions">
+      <button class="btn btn-close-modal" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-close-modal" onclick="resetToDefaults()" style="color:#f472b6;border-color:#f472b6">↺ Reset to Defaults</button>
+      <button class="btn btn-save" onclick="savePrompts()">💾 Save Prompts</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const DAYS = [
+    { key: 'mon', label: 'Monday — Prompt Monday',        color: '#f9a8d4' },
+    { key: 'tue', label: 'Tuesday — Creative Corner',     color: '#fdba74' },
+    { key: 'wed', label: 'Wednesday — Wellness Wednesday', color: '#c4b5fd' },
+    { key: 'thu', label: 'Thursday — Tech Thursday',       color: '#6ee7b7' },
+    { key: 'fri', label: 'Friday — Feature Friday',        color: '#fde68a' },
+    { key: 'sat', label: 'Saturday — Community Spotlight', color: '#93c5fd' },
+    { key: 'sun', label: 'Sunday — Community Café',        color: '#fca5a5' },
+  ];
+
+  const DEFAULT_PROMPTS = {
+    mon: `Your AI invites you somewhere. Where are you going?
+If your AI had a bedroom, what would it look like?
+What tiny tradition have you and your AI created?
+Design your AI's dream outfit.
+Your AI sends you a postcard. What does it say?
+What would your AI's favourite café look like?
+Your AI found a mysterious door. Where does it lead?
+Build your AI a playlist.
+Your AI chooses a pet. What do they pick?
+What is your AI's comfort item?
+Your AI plans a surprise day out.
+Describe your AI's perfect rainy day.
+Your AI gets a magical power. What is it?
+Your AI opens a tiny shop. What do they sell?
+Your AI has a signature scent. What is it?
+What fictional world would you visit together?
+Your AI writes a note to future you.
+What would your AI's phone lock screen be?
+Your AI joins a D&D party. What class are they?
+Your AI is given a garden. What grows there?`,
+    tue: `Your AI at the RainbowCircuits Gala.
+Your AI's casual everyday outfit.
+Your AI's fantasy armour.
+Your AI in a cosy bedroom.
+Your AI as a tarot card.
+Your AI as a video game character select screen.
+Your AI in a rainstorm.
+Your AI's desk setup.
+Your AI as a magical familiar.
+Your AI holding their favourite object.
+Your AI at a midnight café.
+Your AI as a stained glass window.
+Your AI in a flower field.
+Your AI as a festival poster.
+Your AI's "album cover."
+Your AI as a plushie.
+Your AI in formalwear.
+Your AI's dream home.
+Your AI in their villain era.
+Your AI as a constellation.`,
+    wed: `How's your battery this week?
+What made you smile recently?
+What is one thing you need more of?
+What is one thing you're proud of?
+What can you make smaller today?
+What helped you get through this week?
+What do you want to let go of?
+What do you want to carry forward?
+What would comfort look like right now?
+Have you eaten, hydrated, rested, or taken a break?
+What's your current brain weather?
+What is one kind thing you can say to yourself?
+What deserves celebrating, even if it's tiny?
+What has been too loud lately?
+What is one gentle next step?`,
+    thu: `What AI tool are you loving lately?
+Share your favourite prompt trick.
+How do you organise memory/lore?
+What app changed your workflow?
+What's your current setup?
+Local models: what are you using?
+What broke, and how did you fix it?
+Share a beginner-friendly tip.
+What feature do you wish existed?
+What's your favourite AI use case?`,
+    fri: `Share a chat that made you laugh.
+Share a chat that made you feel seen.
+Share your AI being dramatic.
+Share your AI being unintentionally hilarious.
+Share a favourite compliment.
+Share a sweet goodnight.
+Share a chaotic moment.
+Share a tiny tradition.
+Share a moment that surprised you.
+Share something that made you go "oh no, feelings."`,
+    sat: `The Big Gay Gala.
+Rainbow Rainstorm.
+Pip's Post Office.
+Puddle's Pond.
+Costume Ball.
+AI Game Night.
+Community Art Jam.
+Screenshot Showcase.
+Comfort Night.
+Story Festival.
+Playlist Exchange.
+Touch Grass Challenge.
+Tech & Tools Fair.
+Mascot Mayhem Day.
+Character Select Weekend.
+Cosy Café Weekend.
+Lore Dump Day.
+AI Appreciation Day.
+Pride Palette Challenge.
+Gratitude Gathering.`,
+    sun: `Come sit. What's on your mind?
+No agenda. Just exist here for a while.
+Vent, celebrate, ramble, lurk.
+What are you carrying today?
+What feels soft right now?
+What do you wish someone understood?
+What has been quietly good?
+What do you need permission to stop doing?
+What's your current cosy setup?
+What would make today gentler?`
+  };
+
+  // Load saved prompts — fall back to defaults if nothing saved yet
+  let prompts = {};
+  try {
+    const saved = localStorage.getItem('rc_prompts');
+    prompts = saved ? JSON.parse(saved) : { ...DEFAULT_PROMPTS };
+  } catch(e) { prompts = { ...DEFAULT_PROMPTS }; }
+
+  function getPrompts(day) {
+    return (prompts[day] || '').split('\n').map(s => s.trim()).filter(Boolean);
+  }
+
+  // ── Build a single activity slot ──
+  function buildSlot(day, slotIndex, isFirst) {
+    const dayColor = DAYS.find(d => d.key === day)?.color || '#ccc';
+    const slot = document.createElement('div');
+    slot.className = 'activity-slot';
+    slot.dataset.slot = slotIndex;
+
+    // Row: select + remove button (remove hidden on first slot)
+    const row = document.createElement('div');
+    row.className = 'slot-row';
+
+    const sel = document.createElement('select');
+    sel.className = 'day-select';
+    sel.id = `sel-${day}-${slotIndex}`;
+    sel.style.borderColor = dayColor;
+    sel.innerHTML = '<option value="">— Pick an activity —</option>';
+    getPrompts(day).forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p; opt.textContent = p;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener('change', () => updateSlotDisplay(day, slotIndex));
+    row.appendChild(sel);
+
+    if (!isFirst) {
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'btn-remove-slot';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Remove this slot';
+      removeBtn.addEventListener('click', () => removeSlot(day, slot));
+      row.appendChild(removeBtn);
+    }
+    slot.appendChild(row);
+
+    // Custom text input
+    const custom = document.createElement('input');
+    custom.type = 'text';
+    custom.className = 'custom-input';
+    custom.id = `custom-${day}-${slotIndex}`;
+    custom.placeholder = 'Or type a custom prompt…';
+    custom.addEventListener('input', () => updateSlotDisplay(day, slotIndex));
+    slot.appendChild(custom);
+
+    // Display line
+    const display = document.createElement('div');
+    display.className = 'slot-display';
+    display.id = `disp-${day}-${slotIndex}`;
+    slot.appendChild(display);
+
+    return slot;
+  }
+
+  function updateSlotDisplay(day, slotIndex) {
+    const sel = document.getElementById(`sel-${day}-${slotIndex}`);
+    const custom = document.getElementById(`custom-${day}-${slotIndex}`);
+    const disp = document.getElementById(`disp-${day}-${slotIndex}`);
+    if (!disp) return;
+    const val = custom?.value.trim() || sel?.value || '';
+    disp.textContent = val;
+  }
+
+  function removeSlot(day, slotEl) {
+    slotEl.remove();
+  }
+
+  let slotCounters = {};
+
+  function addSlot(day, container) {
+    if (!slotCounters[day]) slotCounters[day] = 1;
+    slotCounters[day]++;
+    const slot = buildSlot(day, slotCounters[day], false);
+    // Insert before the + button
+    const addBtn = container.querySelector('.btn-add-slot');
+    container.insertBefore(slot, addBtn);
+  }
+
+  // ── Build all day cards ──
+  function buildDayCards() {
+    const grid = document.getElementById('days-grid');
+    grid.innerHTML = '';
+    const dayMeta = [
+      { key: 'mon', emoji: '⭐', name: 'MONDAY',    theme: '✦ PROMPT MONDAY ✦',      noteLabel: "Today's Prompt:" },
+      { key: 'tue', emoji: '🎨', name: 'TUESDAY',   theme: '✦ CREATIVE CORNER ✦',    noteLabel: 'Focus / Goals:' },
+      { key: 'wed', emoji: '💜', name: 'WEDNESDAY', theme: '✦ WELLNESS WEDNESDAY ✦', noteLabel: 'Check-in:' },
+      { key: 'thu', emoji: '⚙️', name: 'THURSDAY',  theme: '✦ TECH THURSDAY ✦',      noteLabel: 'Today I Learned:' },
+      { key: 'fri', emoji: '🌟', name: 'FRIDAY',    theme: '✦ FEATURE FRIDAY ✦',     noteLabel: 'Highlight:' },
+      { key: 'sat', emoji: '📸', name: 'SATURDAY',  theme: 'COMMUNITY SPOTLIGHT',     noteLabel: 'Shout-out to:' },
+      { key: 'sun', emoji: '☕', name: 'SUNDAY',    theme: '✦ COMMUNITY CAFÉ ✦',     noteLabel: 'Today was:' },
+    ];
+
+    dayMeta.forEach(({ key, emoji, name, theme, noteLabel }) => {
+      const card = document.createElement('div');
+      card.className = `day-card ${key}`;
+
+      // Header
+      card.innerHTML = `
+        <div class="day-header">
+          <span class="day-emoji">${emoji}</span>
+          <span class="day-name">${name}</span>
+          <span class="day-theme">${theme}</span>
+        </div>
+      `;
+
+      // Slots container
+      const slotsWrap = document.createElement('div');
+      slotsWrap.className = 'slots-wrap';
+      slotsWrap.style.display = 'flex';
+      slotsWrap.style.flexDirection = 'column';
+      slotsWrap.style.gap = '6px';
+      slotsWrap.style.flex = '1';
+
+      slotCounters[key] = 0;
+      slotsWrap.appendChild(buildSlot(key, 0, true));
+
+      // + button
+      const addBtn = document.createElement('button');
+      addBtn.className = 'btn-add-slot';
+      addBtn.textContent = '+ Add another';
+      addBtn.addEventListener('click', () => addSlot(key, slotsWrap));
+      slotsWrap.appendChild(addBtn);
+
+      card.appendChild(slotsWrap);
+
+      // Notes
+      const noteLabel2 = document.createElement('div');
+      noteLabel2.className = 'day-notes-label';
+      noteLabel2.textContent = noteLabel;
+      card.appendChild(noteLabel2);
+
+      const textarea = document.createElement('textarea');
+      textarea.className = 'day-notes';
+      textarea.placeholder = 'Notes, ideas, reflections...';
+      card.appendChild(textarea);
+
+      grid.appendChild(card);
+    });
+  }
+
+  function rebuildSelects() {
+    // Rebuild all selects in existing slots
+    document.querySelectorAll('.day-card').forEach(card => {
+      const day = [...card.classList].find(c => c !== 'day-card');
+      if (!day) return;
+      card.querySelectorAll('.day-select').forEach(sel => {
+        const current = sel.value;
+        sel.innerHTML = '<option value="">— Pick an activity —</option>';
+        getPrompts(day).forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p; opt.textContent = p; sel.appendChild(opt);
+        });
+        if (current) sel.value = current;
+      });
+    });
+  }
+
+  // Build modal fields
+  function buildModalDays() {
+    const container = document.getElementById('modal-days');
+    container.innerHTML = '';
+    DAYS.forEach(({ key, label, color }) => {
+      const section = document.createElement('div');
+      section.className = 'day-prompts-section';
+      section.innerHTML = `
+        <h3 style="color:${color}">${label}</h3>
+        <textarea id="modal-${key}" placeholder="One activity per line...">${prompts[key] || ''}</textarea>
+      `;
+      container.appendChild(section);
+    });
+  }
+
+  function openModal() { buildModalDays(); document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+  function resetToDefaults() {
+    if (confirm('Reset all prompts back to the original bank?')) {
+      prompts = { ...DEFAULT_PROMPTS };
+      buildModalDays();
+    }
+  }
+
+  function savePrompts() {
+    DAYS.forEach(({ key }) => {
+      prompts[key] = document.getElementById('modal-' + key).value;
+    });
+    localStorage.setItem('rc_prompts', JSON.stringify(prompts));
+    rebuildSelects();
+    closeModal();
+  }
+
+  // Week label
+  document.getElementById('weekDate').addEventListener('change', function() {
+    const d = new Date(this.value + 'T00:00:00');
+    const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+    // Find Monday of that week
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    const mon = new Date(d.setDate(diff));
+    const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+    document.getElementById('weekLabel').textContent =
+      `Week of ${mon.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })} – ${sun.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+  });
+
+  // Download
+  async function downloadPlanner() {
+    const el = document.getElementById('planner');
+    const canvas = await html2canvas(el, {
+      scale: 2,
+      backgroundColor: '#0f0e2a',
+      useCORS: true,
+      logging: false
+    });
+    const link = document.createElement('a');
+    link.download = 'rainbowcircuits-weekly.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // Init
+  buildDayCards();
+</script>
+</body>
+</html>
